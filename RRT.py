@@ -16,7 +16,7 @@ class Map:
         self.obsNum = obsNum
         self.obstacles = []
 
-        # window settings
+        # setting the window
         pygame.display.set_caption('RRT Path Planning')
         self.map = pygame.display.set_mode((self.w, self.h))
         self.map.fill((255, 255, 255))
@@ -24,7 +24,7 @@ class Map:
         self.nodeThickness = 0
         self.edgeThickness = 1
 
-        # Colors
+        #defining different colors
         self.grey = (70, 70, 70)
         self.Blue = (0, 0, 255)
         self.Green = (0, 255, 0)
@@ -71,7 +71,7 @@ class RRT:
         self.y.append(startY)
         self.parent.append(0)
 
-        #path
+        #for path
         self.goalState = None
         self.path = []
 
@@ -94,24 +94,30 @@ class RRT:
         self.obstacles = obs.copy()
         return obs
 
-    def addNode(self,n,x,y): # if no collision found then add node
+    # if no collision found then add node
+    def addNode(self,n,x,y): 
         self.x.insert(n,x)
         self.y.insert(n,y)
 
-    def removeNode(self,n): #if the node is in collision then remove node
+    #if the node is in collision then remove node
+    def removeNode(self,n):
         self.x.pop(n)
         self.y.pop(n)
 
-    def addEdge(self,parent,child): #if there is no collison then add edge
+    #if there is no collison then add edge
+    def addEdge(self,parent,child): 
         self.parent.insert(child,parent)
 
-    def removeEdge(self,n): #if collision occurs then remove edge
+    #if collision occurs then remove edge
+    def removeEdge(self,n): 
          self.parent.pop(n)
 
-    def numberOfNodes(self): #to get number of nodes
+    #to get number of nodes
+    def numberOfNodes(self): 
         return len(self.x)
 
-    def distance(self,n1,n2): #to calculate the distace between two points
+    #to calculate the distace between two points
+    def distance(self,n1,n2): 
         (x1,y1) = (self.x[n1],self.y[n1])
         (x2,y2) = (self.x[n2],self.y[n2])
         px = (float(x1)-float(x2))**2
@@ -119,6 +125,7 @@ class RRT:
 
         return (px+py)**0.5
 
+    #to get the nearest point in space
     def nearest(self,n):
         dmin = self.distance(0,n)
         nnear = 0 
@@ -128,13 +135,15 @@ class RRT:
                 nnear = i
         return nnear
 
+    #to generate random co-ordinates in the arena
     def randomPoints(self): #to generate a random variable in availabe space
         rx = int(random.uniform(0,self.w))
         ry = int(random.uniform(0,self.h))
 
         return rx,ry
 
-    def freeSpace(self): #to check if the point is in free space or not (isFree)
+    #to check if the point is in free space or not 
+    def freeSpace(self): 
         n = self.numberOfNodes() - 1
         (x, y) = (self.x[n], self.y[n])
         obs = self.obstacles.copy()
@@ -145,7 +154,8 @@ class RRT:
                 return False
         return True
 
-    def collision(self, x1, x2, y1, y2): #crossobstacles
+    #to check there are no collisions with obstacles 
+    def collision(self, x1, x2, y1, y2): 
         obs = self.obstacles.copy()
     
         while (len(obs) >0) :
@@ -158,7 +168,8 @@ class RRT:
                     return True
         return False
 
-    def line(self, n1, n2): #connect
+    #to connect nodes
+    def line(self, n1, n2):
         x1 = self.x[n1]
         x2 = self.x[n2]
         y1 = self.x[n1]
@@ -171,6 +182,7 @@ class RRT:
             self.addEdge(n1,n2)
             return True
 
+    #to check the random co-ordinate is near to which of the nodes
     def step(self, nnear, nrand, dmax=35):
         d = self.distance(nnear, nrand)
         if d > dmax:
@@ -189,6 +201,7 @@ class RRT:
             else:
                 self.addNode(nrand, x, y)
 
+    #to create nodes that will go towards the goal
     def bias(self, ngoalX, ngoalY):
         n = self.numberOfNodes()
         self.addNode(n, ngoalX, ngoalY)
@@ -197,6 +210,7 @@ class RRT:
         self.line(nnear, n)
         return self.x, self.y, self.parent
 
+    #to generate random co-ordinates in the free space available 
     def expand(self):
         n = self.numberOfNodes()
         x, y = self.randomPoints()
@@ -207,6 +221,7 @@ class RRT:
             self.line(xnearest, n)
         return self.x, self.y, self.parent
 
+    #to save nodes which lead to goal state from start state
     def goalPath(self):
         if self.goalReached:
             self.path = []
@@ -218,6 +233,7 @@ class RRT:
             self.path.append(0)
         return self.goalReached
 
+    #to extract x,y co-ordinates to plot the end path formed
     def pathcoords(self):
         pathCoords = []
         for node in self.path:
