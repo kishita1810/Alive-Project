@@ -1,4 +1,4 @@
-# Internship Code
+# Alive Project
 
 Before running the code make sure you have pygame library installed.<br>
 <br>
@@ -6,8 +6,11 @@ You can install it by typing the following command in your terminal <br>
 <br>
 pip install pygame
 <br>
-# Output
+## Output Image
 ![image](https://user-images.githubusercontent.com/78917282/116908449-8ac5f880-ac60-11eb-9fb5-a492d949b3eb.png)
+
+## Output Video
+
 
 # Note:
 
