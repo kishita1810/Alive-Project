@@ -9,7 +9,7 @@ pip install pygame
 ## Output Image
 ![image](https://user-images.githubusercontent.com/78917282/116908449-8ac5f880-ac60-11eb-9fb5-a492d949b3eb.png)
 
-![image]((https://user-images.githubusercontent.com/78917282/134470629-673d8880-cdd2-47d3-8b66-52a3cb8fee7f.png)
+![image](https://user-images.githubusercontent.com/78917282/134470629-673d8880-cdd2-47d3-8b66-52a3cb8fee7f.png)
 
 
 
