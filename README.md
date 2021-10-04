@@ -1,4 +1,4 @@
-# Alive Project
+# RRT 
 
 Before running the code make sure you have pygame library installed.<br>
 <br>
